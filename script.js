@@ -3,7 +3,6 @@ const SHOW_DURATION_MS = 5000;
 const MEMORIZE_DURATION_SECONDS = SHOW_DURATION_MS / 1000;
 const SELECTION_DURATION_SECONDS = 10;
 const BASE_CARD_COUNT = 3;
-const BEST_SCORE_KEY = "memoryAdventureBest";
 const MAX_MISTAKES = 1;
 const DIFFICULTY_CONFIG = {
   easy: { size: 3 },
@@ -66,11 +65,7 @@ function init() {
 }
 
 function loadBestScore() {
-  const stored = localStorage.getItem(BEST_SCORE_KEY);
-  bestScore = stored ? Number(stored) : 0;
-  if (Number.isNaN(bestScore)) {
-    bestScore = 0;
-  }
+  bestScore = 0;
   updateBestScoreDisplay();
 }
 
@@ -182,6 +177,11 @@ function handleChoice(selectedEmoji) {
   const matchIndex = remainingAnswers.indexOf(selectedEmoji);
 
   if (matchIndex === -1) {
+    if (clickedButton) {
+      clickedButton.dataset.result = "×";
+      clickedButton.classList.add("choice-fail");
+      clickedButton.classList.remove("choice-success");
+    }
     handleIncorrectSelection(selectedEmoji);
     return;
   }
@@ -253,7 +253,6 @@ function maybeUpdateBestScore() {
   if (currentLevel > bestScore) {
     bestScore = currentLevel;
     updateBestScoreDisplay();
-    persistBestScore();
   }
 }
 
@@ -370,7 +369,7 @@ function handleIncorrectSelection(selectedEmoji) {
   const button = choiceButtons.find((btn) => btn.dataset.emoji === selectedEmoji);
   if (button) {
     button.disabled = true;
-    button.dataset.result = "×";
+    button.dataset.result = button.dataset.result || "×";
     button.classList.add("choice-fail");
     button.classList.remove("choice-success");
   }
@@ -478,7 +477,7 @@ function hideStatusPopup() {
     return;
   }
   statusPopup.classList.add("hidden");
-  statusPopup.classList.remove("success", "timeout", "ended");
+  statusPopup.classList.remove("success", "timeout", "ended", "fail");
   if (statusActions) {
     statusActions.innerHTML = "";
   }
@@ -512,6 +511,9 @@ function endGameManually() {
     }
   ]);
   restartBtn.classList.remove("hidden");
+
+  bestScore = 0;
+  updateBestScoreDisplay();
 }
 
 function getRankInfo(difficulty, level) {
@@ -585,14 +587,6 @@ function returnToStartScreen() {
   setMessage("");
   cardList.innerHTML = "";
   resetSelectionHistory();
-}
-
-function persistBestScore() {
-  try {
-    localStorage.setItem(BEST_SCORE_KEY, String(bestScore));
-  } catch (error) {
-    // localStorage が使用できない環境では保存を諦める
-  }
 }
 
 // 初期化

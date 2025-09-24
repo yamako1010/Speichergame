@@ -7,54 +7,55 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="game-container">
-    <h1 class="title">記憶アドベンチャー</h1>
+  <main class="game-shell">
+    <header class="game-header">
+      <h1 class="title">記憶アドベンチャー</h1>
+      <section class="controls" aria-label="ゲーム設定">
+        <label for="difficulty-select" class="difficulty-label">
+          難易度
+          <select id="difficulty-select" class="difficulty-select">
+            <option value="easy">初級（3種類）</option>
+            <option value="medium">中級（5種類）</option>
+            <option value="hard">上級（7種類）</option>
+          </select>
+        </label>
+      </section>
+    </header>
 
-    <section class="controls" aria-label="ゲーム設定">
-      <label for="difficulty-select" class="difficulty-label">
-        難易度
-        <select id="difficulty-select" class="difficulty-select">
-          <option value="easy">初級（3種類）</option>
-          <option value="medium">中級（5種類）</option>
-          <option value="hard">上級（7種類）</option>
-        </select>
-      </label>
+    <section class="status-panel" aria-label="記憶タイマー">
+      <div class="timer">
+        <span class="timer-label">残り</span>
+        <span id="countdown-value" class="timer-value" aria-live="polite">5</span>
+        <span class="timer-unit">秒</span>
+      </div>
     </section>
 
-    <section class="timer-display" aria-label="記憶タイマー">
-      <div class="countdown-circle">
-        <span class="countdown-prefix">残り</span>
-        <span id="countdown-value" aria-live="polite">5</span>
-        <span class="countdown-unit">秒</span>
-      </div>
-      <span class="timer-caption">記憶タイマー</span>
+    <section class="card-stage" aria-label="表示されたカード">
+      <div class="card-display" id="card-list" aria-live="polite"></div>
     </section>
 
-    <section class="card-display" id="card-list" aria-live="polite" aria-label="表示されたカード"></section>
-
-    <section class="message-area">
-      <div class="feedback-display" aria-hidden="true">
-        <span id="feedback-icon"></span>
-      </div>
+    <section class="message-panel">
       <p id="message" role="status" aria-live="assertive"></p>
     </section>
 
-    <section class="choices" aria-label="選択肢"></section>
+    <section class="choice-panel" aria-label="選択肢">
+      <div class="choices"></div>
+    </section>
 
-    <section class="selection-history" aria-label="選んだカード">
+    <section class="history-panel" aria-label="選んだカード">
       <h2 class="history-title">あなたの選択</h2>
       <div id="selection-list" class="selection-list" aria-live="polite"></div>
     </section>
 
-    <div class="action-buttons">
-      <button id="restart-btn" class="restart-btn hidden">もう一度遊ぶ</button>
-      <button id="end-game-btn" class="end-btn" type="button">ゲーム終了</button>
-    </div>
+    <section class="score-panel" aria-label="スコア">
+      <div class="score-item">Lv <span id="current-level">1</span></div>
+      <div class="score-item">Best <span id="best-score">0</span></div>
+    </section>
 
-    <footer class="scoreboard" aria-label="スコア">
-      <div class="status-item">現在のレベル: <span id="current-level">1</span></div>
-      <div class="status-item">最高スコア: <span id="best-score">0</span></div>
-    </footer>
+    <nav class="action-panel">
+      <button id="restart-btn" class="action-btn hidden">もう一度遊ぶ</button>
+      <button id="end-game-btn" class="action-btn action-btn--danger" type="button">ゲーム終了</button>
+    </nav>
   </main>
 
   <div id="status-popup" class="status-popup hidden" role="dialog" aria-live="assertive" aria-modal="true">
