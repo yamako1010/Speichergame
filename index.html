@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>記憶アドベンチャー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-container">
+    <h1 class="title">記憶アドベンチャー</h1>
+
+    <section class="controls" aria-label="ゲーム設定">
+      <label for="difficulty-select" class="difficulty-label">
+        難易度
+        <select id="difficulty-select" class="difficulty-select">
+          <option value="easy">初級（3種類）</option>
+          <option value="medium">中級（5種類）</option>
+          <option value="hard">上級（7種類）</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="timer-display" aria-label="記憶タイマー">
+      <div class="countdown-circle">
+        <span class="countdown-prefix">残り</span>
+        <span id="countdown-value" aria-live="polite">5</span>
+        <span class="countdown-unit">秒</span>
+      </div>
+      <span class="timer-caption">記憶タイマー</span>
+    </section>
+
+    <section class="card-display" id="card-list" aria-live="polite" aria-label="表示されたカード"></section>
+
+    <section class="message-area">
+      <div class="feedback-display" aria-hidden="true">
+        <span id="feedback-icon"></span>
+      </div>
+      <p id="message" role="status" aria-live="assertive"></p>
+    </section>
+
+    <section class="choices" aria-label="選択肢"></section>
+
+    <section class="selection-history" aria-label="選んだカード">
+      <h2 class="history-title">あなたの選択</h2>
+      <div id="selection-list" class="selection-list" aria-live="polite"></div>
+    </section>
+
+    <div class="action-buttons">
+      <button id="restart-btn" class="restart-btn hidden">もう一度遊ぶ</button>
+      <button id="end-game-btn" class="end-btn" type="button">ゲーム終了</button>
+    </div>
+
+    <footer class="scoreboard" aria-label="スコア">
+      <div class="status-item">現在のレベル: <span id="current-level">1</span></div>
+      <div class="status-item">最高スコア: <span id="best-score">0</span></div>
+    </footer>
+  </main>
+
+  <div id="status-popup" class="status-popup hidden" role="dialog" aria-live="assertive" aria-modal="true">
+    <span class="status-text">正解！！</span>
+    <div class="status-actions" id="status-actions"></div>
+  </div>
+
+  <div id="start-overlay" class="start-overlay" role="dialog" aria-modal="true" aria-labelledby="start-title">
+    <div class="start-dialog">
+      <h2 id="start-title" class="start-title">記憶アドベンチャーへようこそ！</h2>
+      <div class="start-description">
+        <p>表示されたカードを<b>5秒</b>で覚えてください。</p>
+        <p>カードが隠れたら<b>10秒以内</b>に正解を選びます。</p>
+        <p>レベルが上がると、カードの種類が増えていきます。</p>
+      </div>
+      <button id="start-btn" class="start-btn" type="button">冒険を始める</button>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
